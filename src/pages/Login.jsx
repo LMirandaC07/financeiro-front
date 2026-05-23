@@ -2,7 +2,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
 
-const API = 'https://financeiro-api-production.up.railway.app'
+const API = 'https://financeiro-api-production-aa9b.up.railway.app'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -70,15 +70,21 @@ export default function Login() {
           filter: blur(120px);
           pointer-events: none;
         }
+
         .orb-1 {
-          width: 500px; height: 500px;
+          width: 500px;
+          height: 500px;
           background: radial-gradient(circle, #c9a84420 0%, transparent 70%);
-          top: -100px; left: -100px;
+          top: -100px;
+          left: -100px;
         }
+
         .orb-2 {
-          width: 300px; height: 300px;
+          width: 300px;
+          height: 300px;
           background: radial-gradient(circle, #c9a84410 0%, transparent 70%);
-          bottom: 100px; right: 200px;
+          bottom: 100px;
+          right: 200px;
         }
 
         .brand {
@@ -87,11 +93,15 @@ export default function Login() {
           gap: 12px;
           margin-bottom: 64px;
         }
+
         .brand-icon {
-          width: 40px; height: 40px;
+          width: 40px;
+          height: 40px;
           background: #c9a844;
           border-radius: 10px;
-          display: flex; align-items: center; justify-content: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           font-size: 18px;
         }
         .brand-name {
@@ -111,7 +121,11 @@ export default function Login() {
           letter-spacing: -2px;
           margin-bottom: 20px;
         }
-        .hero-text h1 span { color: #c9a844; }
+
+        .hero-text h1 span {
+          color: #c9a844;
+        }
+
         .hero-text p {
           color: #444;
           font-size: 16px;
@@ -126,12 +140,14 @@ export default function Login() {
           padding-top: 40px;
           border-top: 1px solid #161616;
         }
+
         .stat-value {
           font-family: 'Syne', sans-serif;
           font-size: 28px;
           font-weight: 800;
           color: #c9a844;
         }
+
         .stat-label {
           font-size: 12px;
           color: #333;
@@ -177,8 +193,14 @@ export default function Login() {
           outline: none;
           transition: border-color 0.2s;
         }
-        .field input:focus { border-color: #c9a844; }
-        .field input::placeholder { color: #333; }
+
+        .field input:focus {
+          border-color: #c9a844;
+        }
+
+        .field input::placeholder {
+          color: #333;
+        }
 
         .submit-btn {
           width: 100%;
@@ -195,9 +217,19 @@ export default function Login() {
           transition: opacity 0.2s, transform 0.1s;
           letter-spacing: 0.3px;
         }
-        .submit-btn:hover { opacity: 0.9; }
-        .submit-btn:active { transform: scale(0.99); }
-        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .submit-btn:hover {
+          opacity: 0.9;
+        }
+
+        .submit-btn:active {
+          transform: scale(0.99);
+        }
+
+        .submit-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
 
         .erro-msg {
           background: #ff444415;
@@ -222,8 +254,14 @@ export default function Login() {
         }
 
         @media (max-width: 768px) {
-          .auth-left { display: none; }
-          .auth-right { width: 100%; padding: 40px 28px; border: none; }
+          .auth-left {
+            display: none;
+          }
+          .auth-right {
+            width: 100%;
+            padding: 40px 28px;
+            border: none;
+          }
         }
       `}</style>
 
@@ -267,13 +305,23 @@ export default function Login() {
           <form onSubmit={handleLogin}>
             <div className="field">
               <label>Email</label>
-              <input type="email" placeholder="seu@email.com" value={email}
-                onChange={e => setEmail(e.target.value)} required />
+              <input
+                type="email"
+                placeholder="seu@email.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+              />
             </div>
             <div className="field">
               <label>Senha</label>
-              <input type="password" placeholder="••••••••" value={senha}
-                onChange={e => setSenha(e.target.value)} required />
+              <input
+                type="password"
+                placeholder="••••••••"
+                value={senha}
+                onChange={e => setSenha(e.target.value)}
+                required
+              />
             </div>
             <button className="submit-btn" type="submit" disabled={loading}>
               {loading ? 'Entrando...' : 'Entrar'}

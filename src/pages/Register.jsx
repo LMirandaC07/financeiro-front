@@ -2,7 +2,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
 
-const API = 'https://financeiro-api-production.up.railway.app'
+const API = 'https://financeiro-api-production-aa9b.up.railway.app'
 
 export default function Register() {
   const [nome, setNome] = useState('')
@@ -43,6 +43,7 @@ export default function Register() {
           overflow: hidden;
           position: relative;
         }
+
         .auth-left {
           flex: 1;
           display: flex;
@@ -52,6 +53,7 @@ export default function Register() {
           position: relative;
           z-index: 1;
         }
+
         .auth-right {
           width: 480px;
           background: #0e0e0e;
@@ -61,16 +63,20 @@ export default function Register() {
           justify-content: center;
           padding: 60px 56px;
         }
+
         .orb {
           position: absolute;
           border-radius: 50%;
           filter: blur(120px);
           pointer-events: none;
         }
+
         .orb-1 {
-          width: 500px; height: 500px;
+          width: 500px;
+          height: 500px;
           background: radial-gradient(circle, #c9a84420 0%, transparent 70%);
-          top: -100px; left: -100px;
+          top: -100px;
+          left: -100px;
         }
         .brand {
           display: flex;
@@ -78,11 +84,15 @@ export default function Register() {
           gap: 12px;
           margin-bottom: 64px;
         }
+
         .brand-icon {
-          width: 40px; height: 40px;
+          width: 40px;
+          height: 40px;
           background: #c9a844;
           border-radius: 10px;
-          display: flex; align-items: center; justify-content: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           font-size: 18px;
         }
         .brand-name {
@@ -91,6 +101,7 @@ export default function Register() {
           font-weight: 700;
           color: #fff;
         }
+
         .hero-text h1 {
           font-family: 'Syne', sans-serif;
           font-size: clamp(42px, 5vw, 64px);
@@ -100,8 +111,17 @@ export default function Register() {
           letter-spacing: -2px;
           margin-bottom: 20px;
         }
-        .hero-text h1 span { color: #c9a844; }
-        .hero-text p { color: #444; font-size: 16px; line-height: 1.7; max-width: 400px; }
+
+        .hero-text h1 span {
+          color: #c9a844;
+        }
+
+        .hero-text p {
+          color: #444;
+          font-size: 16px;
+          line-height: 1.7;
+          max-width: 400px;
+        }
 
         .steps {
           margin-top: 64px;
@@ -111,16 +131,21 @@ export default function Register() {
           flex-direction: column;
           gap: 20px;
         }
+
         .step {
           display: flex;
           align-items: center;
           gap: 16px;
         }
+
         .step-num {
-          width: 32px; height: 32px;
+          width: 32px;
+          height: 32px;
           border: 1px solid #c9a84440;
           border-radius: 50%;
-          display: flex; align-items: center; justify-content: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           font-family: 'Syne', sans-serif;
           font-size: 13px;
           color: #c9a844;
@@ -136,7 +161,12 @@ export default function Register() {
           letter-spacing: -0.5px;
           margin-bottom: 8px;
         }
-        .form-sub { color: #444; font-size: 14px; margin-bottom: 40px; }
+
+        .form-sub {
+          color: #444;
+          font-size: 14px;
+          margin-bottom: 40px;
+        }
 
         .field { margin-bottom: 16px; }
         .field label {
@@ -147,6 +177,7 @@ export default function Register() {
           letter-spacing: 0.1em;
           margin-bottom: 8px;
         }
+
         .field input {
           width: 100%;
           background: #080808;
@@ -159,8 +190,14 @@ export default function Register() {
           outline: none;
           transition: border-color 0.2s;
         }
-        .field input:focus { border-color: #c9a844; }
-        .field input::placeholder { color: #333; }
+
+        .field input:focus {
+          border-color: #c9a844;
+        }
+
+        .field input::placeholder {
+          color: #333;
+        }
 
         .submit-btn {
           width: 100%;
@@ -176,8 +213,15 @@ export default function Register() {
           margin-top: 8px;
           transition: opacity 0.2s;
         }
-        .submit-btn:hover { opacity: 0.9; }
-        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .submit-btn:hover {
+          opacity: 0.9;
+        }
+
+        .submit-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
 
         .erro-msg {
           background: #ff444415;
@@ -188,17 +232,29 @@ export default function Register() {
           font-size: 13px;
           margin-bottom: 20px;
         }
+
         .form-footer {
           text-align: center;
           margin-top: 24px;
           font-size: 13px;
           color: #444;
         }
-        .form-footer a { color: #c9a844; text-decoration: none; font-weight: 500; }
+
+        .form-footer a {
+          color: #c9a844;
+          text-decoration: none;
+          font-weight: 500;
+        }
 
         @media (max-width: 768px) {
-          .auth-left { display: none; }
-          .auth-right { width: 100%; padding: 40px 28px; border: none; }
+          .auth-left {
+            display: none;
+          }
+          .auth-right {
+            width: 100%;
+            padding: 40px 28px;
+            border: none;
+          }
         }
       `}</style>
 
@@ -241,18 +297,33 @@ export default function Register() {
           <form onSubmit={handleRegister}>
             <div className="field">
               <label>Nome completo</label>
-              <input type="text" placeholder="Seu nome" value={nome}
-                onChange={e => setNome(e.target.value)} required />
+              <input
+                type="text"
+                placeholder="Seu nome"
+                value={nome}
+                onChange={e => setNome(e.target.value)}
+                required
+              />
             </div>
             <div className="field">
               <label>Email</label>
-              <input type="email" placeholder="seu@email.com" value={email}
-                onChange={e => setEmail(e.target.value)} required />
+              <input
+                type="email"
+                placeholder="seu@email.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+              />
             </div>
             <div className="field">
               <label>Senha</label>
-              <input type="password" placeholder="Mínimo 6 caracteres" value={senha}
-                onChange={e => setSenha(e.target.value)} required />
+              <input
+                type="password"
+                placeholder="Mínimo 6 caracteres"
+                value={senha}
+                onChange={e => setSenha(e.target.value)}
+                required
+              />
             </div>
             <button className="submit-btn" type="submit" disabled={loading}>
               {loading ? 'Criando conta...' : 'Criar conta grátis'}

@@ -21,7 +21,10 @@ export default function Dashboard() {
   const headers = { Authorization: `Bearer ${token}` }
 
   useEffect(() => {
-    if (!token) { navigate('/'); return }
+    if (!token) {
+      navigate('/')
+      return
+    }
     buscarDados()
   }, [])
 
@@ -43,9 +46,16 @@ export default function Dashboard() {
     setLoading(true)
     try {
       await axios.post(`${API}/api/transacoes`, {
-        descricao, valor: parseFloat(valor), tipo, categoria, data
+        descricao,
+        valor: parseFloat(valor),
+        tipo,
+        categoria,
+        data
       }, { headers })
-      setDescricao(''); setValor(''); setCategoria(''); setData('')
+      setDescricao('')
+      setValor('')
+      setCategoria('')
+      setData('')
       await buscarDados()
     } catch (err) {
       console.error(err)
@@ -59,17 +69,30 @@ export default function Dashboard() {
     navigate('/')
   }
 
-  const filtradas = tab === 'todas' ? transacoes
+  const filtradas = tab === 'todas'
+    ? transacoes
     : transacoes.filter(t => t.tipo === tab.toUpperCase())
 
-  const fmt = (v) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v)
+  const fmt = (v) =>
+    new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(v)
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #080808; overflow-x: hidden; }
+        *, *::before, *::after {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+
+        body {
+          background: #080808;
+          overflow-x: hidden;
+        }
 
         .dash {
           min-height: 100vh;
@@ -91,16 +114,21 @@ export default function Dashboard() {
           top: 0;
           z-index: 100;
         }
+
         .nav-brand {
           display: flex;
           align-items: center;
           gap: 10px;
         }
+
         .nav-icon {
-          width: 32px; height: 32px;
+          width: 32px;
+          height: 32px;
           background: #c9a844;
           border-radius: 8px;
-          display: flex; align-items: center; justify-content: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           font-size: 14px;
         }
         .nav-name {
@@ -109,16 +137,21 @@ export default function Dashboard() {
           font-weight: 700;
           color: #fff;
         }
+
         .nav-right {
           display: flex;
           align-items: center;
           gap: 16px;
         }
+
         .nav-user {
           font-size: 13px;
           color: #555;
         }
-        .nav-user span { color: #888; }
+
+        .nav-user span {
+          color: #888;
+        }
         .logout-btn {
           background: transparent;
           border: 1px solid #1f1f1f;
@@ -130,13 +163,24 @@ export default function Dashboard() {
           font-family: 'DM Sans', sans-serif;
           transition: all 0.2s;
         }
-        .logout-btn:hover { border-color: #333; color: #888; }
+
+        .logout-btn:hover {
+          border-color: #333;
+          color: #888;
+        }
 
         /* MAIN */
-        .main { padding: 32px; max-width: 1400px; margin: 0 auto; }
+        .main {
+          padding: 32px;
+          max-width: 1400px;
+          margin: 0 auto;
+        }
 
         /* HEADER */
-        .page-header { margin-bottom: 32px; }
+        .page-header {
+          margin-bottom: 32px;
+        }
+
         .page-header h1 {
           font-family: 'Syne', sans-serif;
           font-size: 28px;
@@ -144,7 +188,11 @@ export default function Dashboard() {
           letter-spacing: -0.5px;
           margin-bottom: 4px;
         }
-        .page-header p { color: #444; font-size: 14px; }
+
+        .page-header p {
+          color: #444;
+          font-size: 14px;
+        }
 
         /* SUMMARY CARDS */
         .summary {
@@ -153,6 +201,7 @@ export default function Dashboard() {
           gap: 16px;
           margin-bottom: 32px;
         }
+
         .summary-card {
           background: #0e0e0e;
           border: 1px solid #161616;
@@ -161,15 +210,27 @@ export default function Dashboard() {
           position: relative;
           overflow: hidden;
         }
+
         .summary-card::before {
           content: '';
           position: absolute;
-          top: 0; left: 0; right: 0;
+          top: 0;
+          left: 0;
+          right: 0;
           height: 2px;
         }
-        .summary-card.receitas::before { background: #34d399; }
-        .summary-card.despesas::before { background: #f87171; }
-        .summary-card.saldo::before { background: #c9a844; }
+
+        .summary-card.receitas::before {
+          background: #34d399;
+        }
+
+        .summary-card.despesas::before {
+          background: #f87171;
+        }
+
+        .summary-card.saldo::before {
+          background: #c9a844;
+        }
 
         .summary-label {
           font-size: 11px;
@@ -178,15 +239,25 @@ export default function Dashboard() {
           letter-spacing: 0.15em;
           margin-bottom: 12px;
         }
+
         .summary-value {
           font-family: 'Syne', sans-serif;
           font-size: 26px;
           font-weight: 800;
           letter-spacing: -0.5px;
         }
-        .summary-card.receitas .summary-value { color: #34d399; }
-        .summary-card.despesas .summary-value { color: #f87171; }
-        .summary-card.saldo .summary-value { color: #c9a844; }
+
+        .summary-card.receitas .summary-value {
+          color: #34d399;
+        }
+
+        .summary-card.despesas .summary-value {
+          color: #f87171;
+        }
+
+        .summary-card.saldo .summary-value {
+          color: #c9a844;
+        }
 
         /* GRID */
         .grid {
@@ -230,18 +301,23 @@ export default function Dashboard() {
           cursor: pointer;
           transition: all 0.2s;
         }
+
         .tipo-btn.active-receita {
           background: #34d39915;
           border-color: #34d39940;
           color: #34d399;
         }
+
         .tipo-btn.active-despesa {
           background: #f8717115;
           border-color: #f8717140;
           color: #f87171;
         }
 
-        .field { margin-bottom: 14px; }
+        .field {
+          margin-bottom: 14px;
+        }
+
         .field label {
           display: block;
           font-size: 11px;
@@ -250,6 +326,7 @@ export default function Dashboard() {
           letter-spacing: 0.1em;
           margin-bottom: 7px;
         }
+
         .field input, .field select {
           width: 100%;
           background: #080808;
@@ -262,9 +339,18 @@ export default function Dashboard() {
           outline: none;
           transition: border-color 0.2s;
         }
-        .field input:focus, .field select:focus { border-color: #c9a84460; }
-        .field input::placeholder { color: #2a2a2a; }
-        .field select option { background: #0e0e0e; }
+
+        .field input:focus, .field select:focus {
+          border-color: #c9a84460;
+        }
+
+        .field input::placeholder {
+          color: #2a2a2a;
+        }
+
+        .field select option {
+          background: #0e0e0e;
+        }
 
         .add-btn {
           width: 100%;
@@ -280,8 +366,15 @@ export default function Dashboard() {
           margin-top: 4px;
           transition: opacity 0.2s;
         }
-        .add-btn:hover { opacity: 0.9; }
-        .add-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .add-btn:hover {
+          opacity: 0.9;
+        }
+
+        .add-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
 
         /* TRANSACTIONS */
         .trans-card {
@@ -306,6 +399,7 @@ export default function Dashboard() {
           border-radius: 8px;
           padding: 4px;
         }
+
         .tab-btn {
           padding: 6px 14px;
           border-radius: 6px;
@@ -317,6 +411,7 @@ export default function Dashboard() {
           cursor: pointer;
           transition: all 0.2s;
         }
+
         .tab-btn.active {
           background: #161616;
           color: #fff;
@@ -329,9 +424,19 @@ export default function Dashboard() {
           max-height: 500px;
           overflow-y: auto;
         }
-        .trans-list::-webkit-scrollbar { width: 3px; }
-        .trans-list::-webkit-scrollbar-track { background: transparent; }
-        .trans-list::-webkit-scrollbar-thumb { background: #1f1f1f; border-radius: 99px; }
+
+        .trans-list::-webkit-scrollbar {
+          width: 3px;
+        }
+
+        .trans-list::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .trans-list::-webkit-scrollbar-thumb {
+          background: #1f1f1f;
+          border-radius: 99px;
+        }
 
         .trans-item {
           display: flex;
@@ -343,29 +448,39 @@ export default function Dashboard() {
           padding: 14px 16px;
           transition: border-color 0.2s;
         }
-        .trans-item:hover { border-color: #1f1f1f; }
+
+        .trans-item:hover {
+          border-color: #1f1f1f;
+        }
 
         .trans-left {
           display: flex;
           align-items: center;
           gap: 12px;
         }
+
         .trans-dot {
-          width: 8px; height: 8px;
+          width: 8px;
+          height: 8px;
           border-radius: 50%;
           flex-shrink: 0;
         }
-        .trans-info {}
+
+        .trans-info {
+        }
+
         .trans-desc {
           font-size: 14px;
           color: #ddd;
           font-weight: 500;
           margin-bottom: 3px;
         }
+
         .trans-meta {
           font-size: 11px;
           color: #333;
         }
+
         .trans-val {
           font-family: 'Syne', sans-serif;
           font-size: 15px;
@@ -380,8 +495,12 @@ export default function Dashboard() {
         }
 
         @media (max-width: 1024px) {
-          .grid { grid-template-columns: 1fr; }
-          .summary { grid-template-columns: 1fr; }
+          .grid {
+            grid-template-columns: 1fr;
+          }
+          .summary {
+            grid-template-columns: 1fr;
+          }
         }
       `}</style>
 
@@ -444,23 +563,40 @@ export default function Dashboard() {
               <form onSubmit={handleAdd}>
                 <div className="field">
                   <label>Descrição</label>
-                  <input placeholder="Ex: Salário, Aluguel..." value={descricao}
-                    onChange={e => setDescricao(e.target.value)} required />
+                  <input
+                    placeholder="Ex: Salário, Aluguel..."
+                    value={descricao}
+                    onChange={e => setDescricao(e.target.value)}
+                    required
+                  />
                 </div>
                 <div className="field">
                   <label>Valor (R$)</label>
-                  <input type="number" step="0.01" placeholder="0,00" value={valor}
-                    onChange={e => setValor(e.target.value)} required />
+                  <input
+                    type="number"
+                    step="0.01"
+                    placeholder="0,00"
+                    value={valor}
+                    onChange={e => setValor(e.target.value)}
+                    required
+                  />
                 </div>
                 <div className="field">
                   <label>Categoria</label>
-                  <input placeholder="Ex: Alimentação, Trabalho..." value={categoria}
-                    onChange={e => setCategoria(e.target.value)} />
+                  <input
+                    placeholder="Ex: Alimentação, Trabalho..."
+                    value={categoria}
+                    onChange={e => setCategoria(e.target.value)}
+                  />
                 </div>
                 <div className="field">
                   <label>Data</label>
-                  <input type="date" value={data}
-                    onChange={e => setData(e.target.value)} required />
+                  <input
+                    type="date"
+                    value={data}
+                    onChange={e => setData(e.target.value)}
+                    required
+                  />
                 </div>
                 <button className="add-btn" type="submit" disabled={loading}>
                   {loading ? 'Adicionando...' : '+ Adicionar'}
@@ -473,8 +609,11 @@ export default function Dashboard() {
                 <div className="card-title" style={{ marginBottom: 0 }}>Transações</div>
                 <div className="tabs">
                   {['todas', 'receita', 'despesa'].map(t => (
-                    <button key={t} className={`tab-btn ${tab === t ? 'active' : ''}`}
-                      onClick={() => setTab(t)}>
+                    <button
+                      key={t}
+                      className={`tab-btn ${tab === t ? 'active' : ''}`}
+                      onClick={() => setTab(t)}
+                    >
                       {t.charAt(0).toUpperCase() + t.slice(1)}
                     </button>
                   ))}
@@ -488,9 +627,12 @@ export default function Dashboard() {
                   filtradas.map(t => (
                     <div className="trans-item" key={t.id}>
                       <div className="trans-left">
-                        <div className="trans-dot" style={{
-                          background: t.tipo === 'RECEITA' ? '#34d399' : '#f87171'
-                        }} />
+                        <div
+                          className="trans-dot"
+                          style={{
+                            background: t.tipo === 'RECEITA' ? '#34d399' : '#f87171'
+                          }}
+                        />
                         <div className="trans-info">
                           <div className="trans-desc">{t.descricao}</div>
                           <div className="trans-meta">
@@ -498,9 +640,12 @@ export default function Dashboard() {
                           </div>
                         </div>
                       </div>
-                      <div className="trans-val" style={{
-                        color: t.tipo === 'RECEITA' ? '#34d399' : '#f87171'
-                      }}>
+                      <div
+                        className="trans-val"
+                        style={{
+                          color: t.tipo === 'RECEITA' ? '#34d399' : '#f87171'
+                        }}
+                      >
                         {t.tipo === 'RECEITA' ? '+' : '-'}{fmt(t.valor)}
                       </div>
                     </div>
