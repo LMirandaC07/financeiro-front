@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
-const API = 'https://financeiro-api-production.up.railway.app'
+const API = 'https://financeiro-api-production-aa9b.up.railway.app'
 
 export default function Dashboard() {
   const [resumo, setResumo] = useState(null)
