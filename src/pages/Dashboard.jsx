@@ -1,3 +1,5 @@
+/* ========================= DASHBOARD.JSX ========================= */
+
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
@@ -14,17 +16,22 @@ export default function Dashboard() {
   const [data, setData] = useState('')
   const [loading, setLoading] = useState(false)
   const [tab, setTab] = useState('todas')
+
   const navigate = useNavigate()
+
   const token = localStorage.getItem('token')
   const nome = localStorage.getItem('nome')
 
-  const headers = { Authorization: `Bearer ${token}` }
+  const headers = {
+    Authorization: `Bearer ${token}`
+  }
 
   useEffect(() => {
     if (!token) {
       navigate('/')
       return
     }
+
     buscarDados()
   }, [])
 
@@ -34,6 +41,7 @@ export default function Dashboard() {
         axios.get(`${API}/api/transacoes/resumo`, { headers }),
         axios.get(`${API}/api/transacoes`, { headers })
       ])
+
       setResumo(r.data)
       setTransacoes(t.data)
     } catch {
@@ -44,21 +52,26 @@ export default function Dashboard() {
   async function handleAdd(e) {
     e.preventDefault()
     setLoading(true)
+
     try {
-      await axios.post(`${API}/api/transacoes`, {
-        descricao,
-        valor: parseFloat(valor),
-        tipo,
-        categoria,
-        data
-      }, { headers })
+      await axios.post(
+        `${API}/api/transacoes`,
+        {
+          descricao,
+          valor: parseFloat(valor),
+          tipo,
+          categoria,
+          data
+        },
+        { headers }
+      )
+
       setDescricao('')
       setValor('')
       setCategoria('')
       setData('')
+
       await buscarDados()
-    } catch (err) {
-      console.error(err)
     } finally {
       setLoading(false)
     }
@@ -69,11 +82,12 @@ export default function Dashboard() {
     navigate('/')
   }
 
-  const filtradas = tab === 'todas'
-    ? transacoes
-    : transacoes.filter(t => t.tipo === tab.toUpperCase())
+  const filtradas =
+    tab === 'todas'
+      ? transacoes
+      : transacoes.filter(t => t.tipo === tab.toUpperCase())
 
-  const fmt = (v) =>
+  const fmt = v =>
     new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL'
@@ -82,34 +96,33 @@ export default function Dashboard() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
-        *, *::before, *::after {
-          box-sizing: border-box;
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap');
+
+        * {
           margin: 0;
           padding: 0;
+          box-sizing: border-box;
         }
 
         body {
-          background: #080808;
-          overflow-x: hidden;
+          background: #f5f7fb;
+          font-family: 'DM Sans', sans-serif;
         }
 
         .dash {
           min-height: 100vh;
-          background: #080808;
-          color: #fff;
-          font-family: 'DM Sans', sans-serif;
+          background: #f5f7fb;
         }
 
-        /* NAVBAR */
         .nav {
-          height: 60px;
-          background: #0a0a0a;
-          border-bottom: 1px solid #141414;
+          height: 70px;
+          background: rgba(255,255,255,0.9);
+          backdrop-filter: blur(10px);
+          border-bottom: 1px solid #e5e7eb;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0 32px;
+          padding: 0 40px;
           position: sticky;
           top: 0;
           z-index: 100;
@@ -118,24 +131,25 @@ export default function Dashboard() {
         .nav-brand {
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 12px;
         }
 
         .nav-icon {
-          width: 32px;
-          height: 32px;
-          background: #c9a844;
-          border-radius: 8px;
+          width: 40px;
+          height: 40px;
+          background: linear-gradient(135deg, #d4af37, #f5d76e);
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 14px;
+          font-size: 18px;
         }
+
         .nav-name {
           font-family: 'Syne', sans-serif;
-          font-size: 17px;
-          font-weight: 700;
-          color: #fff;
+          font-size: 22px;
+          font-weight: 800;
+          color: #111827;
         }
 
         .nav-right {
@@ -145,243 +159,171 @@ export default function Dashboard() {
         }
 
         .nav-user {
-          font-size: 13px;
-          color: #555;
+          color: #6b7280;
+          font-size: 14px;
         }
 
         .nav-user span {
-          color: #888;
+          color: #111827;
+          font-weight: 700;
         }
+
         .logout-btn {
-          background: transparent;
-          border: 1px solid #1f1f1f;
-          color: #555;
-          padding: 6px 14px;
-          border-radius: 7px;
+          border: none;
+          padding: 10px 18px;
+          border-radius: 10px;
+          background: #111827;
+          color: white;
           cursor: pointer;
-          font-size: 12px;
-          font-family: 'DM Sans', sans-serif;
-          transition: all 0.2s;
+          font-weight: 600;
         }
 
-        .logout-btn:hover {
-          border-color: #333;
-          color: #888;
-        }
-
-        /* MAIN */
         .main {
-          padding: 32px;
           max-width: 1400px;
-          margin: 0 auto;
+          margin: auto;
+          padding: 40px;
         }
 
-        /* HEADER */
         .page-header {
-          margin-bottom: 32px;
+          margin-bottom: 30px;
         }
 
         .page-header h1 {
           font-family: 'Syne', sans-serif;
-          font-size: 28px;
-          font-weight: 800;
-          letter-spacing: -0.5px;
-          margin-bottom: 4px;
+          font-size: 42px;
+          color: #111827;
+          margin-bottom: 8px;
         }
 
         .page-header p {
-          color: #444;
-          font-size: 14px;
+          color: #6b7280;
         }
 
-        /* SUMMARY CARDS */
         .summary {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 16px;
-          margin-bottom: 32px;
+          grid-template-columns: repeat(3,1fr);
+          gap: 20px;
+          margin-bottom: 30px;
         }
 
         .summary-card {
-          background: #0e0e0e;
-          border: 1px solid #161616;
-          border-radius: 16px;
-          padding: 24px;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .summary-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 2px;
-        }
-
-        .summary-card.receitas::before {
-          background: #34d399;
-        }
-
-        .summary-card.despesas::before {
-          background: #f87171;
-        }
-
-        .summary-card.saldo::before {
-          background: #c9a844;
+          background: white;
+          border-radius: 20px;
+          padding: 28px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.04);
         }
 
         .summary-label {
-          font-size: 11px;
-          color: #444;
-          text-transform: uppercase;
-          letter-spacing: 0.15em;
-          margin-bottom: 12px;
+          font-size: 13px;
+          color: #6b7280;
+          margin-bottom: 10px;
         }
 
         .summary-value {
           font-family: 'Syne', sans-serif;
-          font-size: 26px;
+          font-size: 32px;
           font-weight: 800;
-          letter-spacing: -0.5px;
         }
 
-        .summary-card.receitas .summary-value {
-          color: #34d399;
+        .receitas .summary-value {
+          color: #10b981;
         }
 
-        .summary-card.despesas .summary-value {
-          color: #f87171;
+        .despesas .summary-value {
+          color: #ef4444;
         }
 
-        .summary-card.saldo .summary-value {
-          color: #c9a844;
+        .saldo .summary-value {
+          color: #d4af37;
         }
 
-        /* GRID */
         .grid {
           display: grid;
           grid-template-columns: 380px 1fr;
-          gap: 20px;
-          align-items: start;
+          gap: 22px;
         }
 
-        /* FORM */
-        .form-card {
-          background: #0e0e0e;
-          border: 1px solid #161616;
-          border-radius: 16px;
+        .form-card,
+        .trans-card {
+          background: white;
+          border-radius: 20px;
           padding: 28px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.04);
         }
+
         .card-title {
           font-family: 'Syne', sans-serif;
-          font-size: 16px;
+          font-size: 20px;
           font-weight: 700;
-          color: #fff;
+          color: #111827;
           margin-bottom: 24px;
-          letter-spacing: -0.2px;
         }
 
         .tipo-toggle {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 8px;
+          gap: 10px;
           margin-bottom: 20px;
         }
+
         .tipo-btn {
-          padding: 10px;
-          border-radius: 8px;
-          border: 1px solid #1f1f1f;
-          background: transparent;
-          color: #555;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 13px;
-          font-weight: 500;
+          padding: 12px;
+          border-radius: 12px;
+          border: none;
+          background: #f3f4f6;
           cursor: pointer;
-          transition: all 0.2s;
+          font-weight: 700;
         }
 
-        .tipo-btn.active-receita {
-          background: #34d39915;
-          border-color: #34d39940;
-          color: #34d399;
+        .active-receita {
+          background: #dcfce7;
+          color: #15803d;
         }
 
-        .tipo-btn.active-despesa {
-          background: #f8717115;
-          border-color: #f8717140;
-          color: #f87171;
+        .active-despesa {
+          background: #fee2e2;
+          color: #dc2626;
         }
 
         .field {
-          margin-bottom: 14px;
+          margin-bottom: 16px;
         }
 
         .field label {
           display: block;
-          font-size: 11px;
-          color: #444;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          margin-bottom: 7px;
-        }
-
-        .field input, .field select {
-          width: 100%;
-          background: #080808;
-          border: 1px solid #1a1a1a;
-          border-radius: 9px;
-          padding: 11px 14px;
-          color: #fff;
+          margin-bottom: 8px;
           font-size: 13px;
-          font-family: 'DM Sans', sans-serif;
+          color: #374151;
+          font-weight: 600;
+        }
+
+        .field input,
+        .field select {
+          width: 100%;
+          padding: 14px;
+          border-radius: 12px;
+          border: 1px solid #d1d5db;
+          background: #f9fafb;
           outline: none;
-          transition: border-color 0.2s;
         }
 
-        .field input:focus, .field select:focus {
-          border-color: #c9a84460;
-        }
-
-        .field input::placeholder {
-          color: #2a2a2a;
-        }
-
-        .field select option {
-          background: #0e0e0e;
+        .field input:focus,
+        .field select:focus {
+          border-color: #d4af37;
+          background: white;
         }
 
         .add-btn {
           width: 100%;
-          background: #c9a844;
-          color: #080808;
           border: none;
-          border-radius: 9px;
-          padding: 13px;
+          border-radius: 12px;
+          padding: 15px;
+          background: linear-gradient(135deg, #d4af37, #f5d76e);
+          color: #111827;
           font-family: 'Syne', sans-serif;
-          font-size: 14px;
-          font-weight: 700;
+          font-weight: 800;
           cursor: pointer;
-          margin-top: 4px;
-          transition: opacity 0.2s;
-        }
-
-        .add-btn:hover {
-          opacity: 0.9;
-        }
-
-        .add-btn:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        /* TRANSACTIONS */
-        .trans-card {
-          background: #0e0e0e;
-          border: 1px solid #161616;
-          border-radius: 16px;
-          padding: 28px;
+          margin-top: 10px;
         }
 
         .trans-header {
@@ -393,111 +335,78 @@ export default function Dashboard() {
 
         .tabs {
           display: flex;
-          gap: 4px;
-          background: #080808;
-          border: 1px solid #161616;
-          border-radius: 8px;
-          padding: 4px;
+          gap: 8px;
         }
 
         .tab-btn {
-          padding: 6px 14px;
-          border-radius: 6px;
           border: none;
-          background: transparent;
-          color: #444;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 12px;
+          padding: 10px 16px;
+          border-radius: 10px;
+          background: #f3f4f6;
           cursor: pointer;
-          transition: all 0.2s;
+          font-weight: 600;
         }
 
         .tab-btn.active {
-          background: #161616;
-          color: #fff;
+          background: #111827;
+          color: white;
         }
 
         .trans-list {
           display: flex;
           flex-direction: column;
-          gap: 8px;
-          max-height: 500px;
-          overflow-y: auto;
-        }
-
-        .trans-list::-webkit-scrollbar {
-          width: 3px;
-        }
-
-        .trans-list::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        .trans-list::-webkit-scrollbar-thumb {
-          background: #1f1f1f;
-          border-radius: 99px;
+          gap: 12px;
         }
 
         .trans-item {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          background: #080808;
-          border: 1px solid #141414;
-          border-radius: 10px;
-          padding: 14px 16px;
-          transition: border-color 0.2s;
-        }
-
-        .trans-item:hover {
-          border-color: #1f1f1f;
+          background: #f9fafb;
+          border-radius: 14px;
+          padding: 16px;
         }
 
         .trans-left {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 14px;
         }
 
         .trans-dot {
-          width: 8px;
-          height: 8px;
+          width: 10px;
+          height: 10px;
           border-radius: 50%;
-          flex-shrink: 0;
-        }
-
-        .trans-info {
         }
 
         .trans-desc {
-          font-size: 14px;
-          color: #ddd;
-          font-weight: 500;
-          margin-bottom: 3px;
+          color: #111827;
+          font-weight: 700;
+          margin-bottom: 4px;
         }
 
         .trans-meta {
-          font-size: 11px;
-          color: #333;
+          color: #6b7280;
+          font-size: 13px;
         }
 
         .trans-val {
           font-family: 'Syne', sans-serif;
-          font-size: 15px;
-          font-weight: 700;
+          font-size: 18px;
+          font-weight: 800;
         }
 
         .empty {
+          padding: 40px;
           text-align: center;
-          padding: 48px 0;
-          color: #2a2a2a;
-          font-size: 14px;
+          color: #6b7280;
         }
 
         @media (max-width: 1024px) {
           .grid {
             grid-template-columns: 1fr;
           }
+
           .summary {
             grid-template-columns: 1fr;
           }
@@ -508,33 +417,47 @@ export default function Dashboard() {
         <nav className="nav">
           <div className="nav-brand">
             <div className="nav-icon">💰</div>
-            <span className="nav-name">FinanceApp</span>
+            <div className="nav-name">FinanceApp</div>
           </div>
+
           <div className="nav-right">
-            <div className="nav-user">Olá, <span>{nome}</span></div>
-            <button className="logout-btn" onClick={handleLogout}>Sair</button>
+            <div className="nav-user">
+              Olá, <span>{nome}</span>
+            </div>
+
+            <button className="logout-btn" onClick={handleLogout}>
+              Sair
+            </button>
           </div>
         </nav>
 
         <div className="main">
           <div className="page-header">
             <h1>Dashboard</h1>
-            <p>Visão geral das suas finanças</p>
+            <p>Gerencie suas finanças com clareza</p>
           </div>
 
           {resumo && (
             <div className="summary">
               <div className="summary-card receitas">
-                <div className="summary-label">Total Receitas</div>
-                <div className="summary-value">{fmt(resumo.totalReceitas)}</div>
+                <div className="summary-label">Receitas</div>
+                <div className="summary-value">
+                  {fmt(resumo.totalReceitas)}
+                </div>
               </div>
+
               <div className="summary-card despesas">
-                <div className="summary-label">Total Despesas</div>
-                <div className="summary-value">{fmt(resumo.totalDespesas)}</div>
+                <div className="summary-label">Despesas</div>
+                <div className="summary-value">
+                  {fmt(resumo.totalDespesas)}
+                </div>
               </div>
+
               <div className="summary-card saldo">
                 <div className="summary-label">Saldo Atual</div>
-                <div className="summary-value">{fmt(resumo.saldo)}</div>
+                <div className="summary-value">
+                  {fmt(resumo.saldo)}
+                </div>
               </div>
             </div>
           )}
@@ -545,33 +468,39 @@ export default function Dashboard() {
 
               <div className="tipo-toggle">
                 <button
-                  type="button"
-                  className={`tipo-btn ${tipo === 'RECEITA' ? 'active-receita' : ''}`}
+                  className={`tipo-btn ${
+                    tipo === 'RECEITA' ? 'active-receita' : ''
+                  }`}
                   onClick={() => setTipo('RECEITA')}
                 >
-                  ↑ Receita
+                  Receita
                 </button>
+
                 <button
-                  type="button"
-                  className={`tipo-btn ${tipo === 'DESPESA' ? 'active-despesa' : ''}`}
+                  className={`tipo-btn ${
+                    tipo === 'DESPESA' ? 'active-despesa' : ''
+                  }`}
                   onClick={() => setTipo('DESPESA')}
                 >
-                  ↓ Despesa
+                  Despesa
                 </button>
               </div>
 
               <form onSubmit={handleAdd}>
                 <div className="field">
                   <label>Descrição</label>
+
                   <input
-                    placeholder="Ex: Salário, Aluguel..."
+                    placeholder="Ex: Salário"
                     value={descricao}
                     onChange={e => setDescricao(e.target.value)}
                     required
                   />
                 </div>
+
                 <div className="field">
-                  <label>Valor (R$)</label>
+                  <label>Valor</label>
+
                   <input
                     type="number"
                     step="0.01"
@@ -581,16 +510,20 @@ export default function Dashboard() {
                     required
                   />
                 </div>
+
                 <div className="field">
                   <label>Categoria</label>
+
                   <input
-                    placeholder="Ex: Alimentação, Trabalho..."
+                    placeholder="Ex: Alimentação"
                     value={categoria}
                     onChange={e => setCategoria(e.target.value)}
                   />
                 </div>
+
                 <div className="field">
                   <label>Data</label>
+
                   <input
                     type="date"
                     value={data}
@@ -598,7 +531,12 @@ export default function Dashboard() {
                     required
                   />
                 </div>
-                <button className="add-btn" type="submit" disabled={loading}>
+
+                <button
+                  className="add-btn"
+                  type="submit"
+                  disabled={loading}
+                >
                   {loading ? 'Adicionando...' : '+ Adicionar'}
                 </button>
               </form>
@@ -606,7 +544,8 @@ export default function Dashboard() {
 
             <div className="trans-card">
               <div className="trans-header">
-                <div className="card-title" style={{ marginBottom: 0 }}>Transações</div>
+                <div className="card-title">Transações</div>
+
                 <div className="tabs">
                   {['todas', 'receita', 'despesa'].map(t => (
                     <button
@@ -614,7 +553,7 @@ export default function Dashboard() {
                       className={`tab-btn ${tab === t ? 'active' : ''}`}
                       onClick={() => setTab(t)}
                     >
-                      {t.charAt(0).toUpperCase() + t.slice(1)}
+                      {t}
                     </button>
                   ))}
                 </div>
@@ -622,7 +561,9 @@ export default function Dashboard() {
 
               <div className="trans-list">
                 {filtradas.length === 0 ? (
-                  <div className="empty">Nenhuma transação encontrada.</div>
+                  <div className="empty">
+                    Nenhuma transação encontrada.
+                  </div>
                 ) : (
                   filtradas.map(t => (
                     <div className="trans-item" key={t.id}>
@@ -630,23 +571,35 @@ export default function Dashboard() {
                         <div
                           className="trans-dot"
                           style={{
-                            background: t.tipo === 'RECEITA' ? '#34d399' : '#f87171'
+                            background:
+                              t.tipo === 'RECEITA'
+                                ? '#10b981'
+                                : '#ef4444'
                           }}
                         />
-                        <div className="trans-info">
-                          <div className="trans-desc">{t.descricao}</div>
+
+                        <div>
+                          <div className="trans-desc">
+                            {t.descricao}
+                          </div>
+
                           <div className="trans-meta">
-                            {t.categoria && `${t.categoria} • `}{t.data}
+                            {t.categoria} • {t.data}
                           </div>
                         </div>
                       </div>
+
                       <div
                         className="trans-val"
                         style={{
-                          color: t.tipo === 'RECEITA' ? '#34d399' : '#f87171'
+                          color:
+                            t.tipo === 'RECEITA'
+                              ? '#10b981'
+                              : '#ef4444'
                         }}
                       >
-                        {t.tipo === 'RECEITA' ? '+' : '-'}{fmt(t.valor)}
+                        {t.tipo === 'RECEITA' ? '+' : '-'}
+                        {fmt(t.valor)}
                       </div>
                     </div>
                   ))
