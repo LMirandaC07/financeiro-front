@@ -1,16 +1,87 @@
-# React + Vite
+# 💰 FinanceApp — Front-end
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface web moderna para gerenciamento de finanças pessoais, desenvolvida com **React** e integrada à [FinanceApp API](https://github.com/LMirandaC07/financeiro-api).
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 18**
+- **Vite** — bundler e servidor de desenvolvimento
+- **React Router DOM** — navegação entre páginas
+- **Axios** — requisições HTTP
+- **CSS-in-JS** — estilização inline com design system próprio
+- **Google Fonts** — tipografia (Syne + DM Sans)
 
-## React Compiler
+## ✨ Funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- ✅ Tela de cadastro de usuário
+- ✅ Tela de login com autenticação JWT
+- ✅ Dashboard com resumo financeiro (receitas, despesas, saldo)
+- ✅ Listagem de transações com filtros por tipo
+- ✅ Formulário para adicionar receitas e despesas
+- ✅ Logout e proteção de rotas autenticadas
+- ✅ Design responsivo dark premium
 
-## Expanding the ESLint configuration
+## 🎨 Design
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Interface com tema **dark premium**, desenvolvida com foco em UX/UI:
+
+- Layout dividido em duas colunas nas telas de auth
+- Dashboard com cards de KPI e lista de transações
+- Tipografia expressiva com Syne (display) e DM Sans (corpo)
+- Paleta dourada `#c9a844` como cor de destaque
+- Feedback visual em tempo real (loading, erros)
+
+## 📁 Estrutura
+
+```
+src/
+├── pages/
+│   ├── Login.jsx       # Tela de login
+│   ├── Register.jsx    # Tela de cadastro
+│   └── Dashboard.jsx   # Painel principal
+├── App.jsx             # Rotas da aplicação
+└── main.jsx            # Ponto de entrada
+```
+
+## ⚙️ Como rodar localmente
+
+### Pré-requisitos
+- Node.js 18+
+- A [FinanceApp API](https://github.com/LMirandaC07/financeiro-api) rodando localmente
+
+### Passos
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/LMirandaC07/financeiro-front.git
+cd financeiro-front
+```
+
+2. Instale as dependências:
+```bash
+npm install
+```
+
+3. Inicie o servidor de desenvolvimento:
+```bash
+npm run dev
+```
+
+A aplicação estará disponível em `http://localhost:5173`
+
+## 🌐 Deploy
+
+O front-end está deployado na **Vercel**:
+```
+https://financeiro-front-azure.vercel.app
+```
+
+## 🔗 Back-end
+
+O back-end desta aplicação está disponível em:
+- Repositório: [financeiro-api](https://github.com/LMirandaC07/financeiro-api)
+- Deploy: [financeiro-api-production-aa9b.up.railway.app](https://financeiro-api-production-aa9b.up.railway.app)
+
+---
+
+Desenvolvido por **Luis Miranda** · [LinkedIn](https://www.linkedin.com/in/gustavomirandac/)
